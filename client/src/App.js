@@ -1,41 +1,51 @@
 import { useReducer } from 'react';
 
-function App() {
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case 'increment':
-        return { ...state, count: state.count + 1 };
-      case 'decrement':
-        return { ...state, count: state.count - 1 };
-      case 'input':
-        return { ...state, input: action.payload };
-      case 'changeColor':
-        return { ...state, color: action.payload };
-      default:
-        return state;
-    }
-  };
+// typically a dedicated reducer file
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'increment':
+      return { ...state, count: state.count + 1 };
+    case 'decrement':
+      return { ...state, count: state.count - 1 };
+    case 'input':
+      return { ...state, input: action.payload };
+    case 'changeColor':
+      return { ...state, color: action.payload };
+    default:
+      return state;
+  }
+};
 
+// typically a dedicated action file
+
+const ACTION = {
+  INCREMENT: 'increment',
+  DECREMENT: 'decrement',
+  INPUT: 'input',
+  CHANGE_COLOR: 'changeColor'
+};
+
+function App() {
   const [state, dispatch] = useReducer(reducer, {
     count: 0,
     input: '',
-    color: 'white'
+    color: ''
   });
 
   const handleChange = e => {
-    dispatch({ type: 'input', payload: e.target.value });
+    dispatch({ type: ACTION.INPUT, payload: e.target.value });
   };
 
   const incrementCount = () => {
-    dispatch({ type: 'increment' });
+    dispatch({ type: ACTION.INCREMENT });
   };
 
   const decrementCount = () => {
-    dispatch({ type: 'decrement' });
+    dispatch({ type: ACTION.DECREMENT });
   };
 
   const changeColor = e => {
-    dispatch({ type: 'changeColor', payload: e.target.name });
+    dispatch({ type: ACTION.CHANGE_COLOR, payload: e.target.name });
   };
 
   return (
@@ -58,7 +68,7 @@ function App() {
             onClick={changeColor}
             name=''
           >
-            white
+            default
           </button>
         </div>
       </section>
