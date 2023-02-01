@@ -1,56 +1,79 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
+
+const initialState = {
+  count: 0,
+  darkMode: true,
+  input: ''
+};
+
+const ACTION = {
+  INCREMENT: 'increment',
+  DECREMENT: 'decrement',
+  DARK_MODE: 'darkMode',
+  INPUT: 'input'
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTION.INCREMENT:
+      return { ...state, count: state.count + 1 };
+    case ACTION.DECREMENT:
+      return { ...state, count: state.count - 1 };
+    case ACTION.DARK_MODE:
+      return { ...state, darkMode: action.payload };
+    case ACTION.INPUT:
+      return { ...state, input: action.payload };
+    default:
+      console.log(`Action ${action.type} not found.`);
+      return state;
+  }
+};
 
 function App() {
-  const [input, setInput] = useState('');
-  const [count, setCount] = useState(0);
-  const [color, setColor] = useState('');
-
-  const handleChange = e => {
-    setInput(e.target.value);
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const incrementCount = () => {
-    setCount(prev => prev + 1);
+    dispatch({ type: ACTION.INCREMENT });
   };
 
   const decrementCount = () => {
-    setCount(prev => prev - 1);
+    dispatch({ type: ACTION.DECREMENT });
   };
 
-  const changeColor = e => {
-    setColor(e.target.name);
+  const changeTheme = e => {
+    dispatch({ type: ACTION.DARK_MODE, payload: !state.darkMode });
+  };
+
+  const handleInputChange = e => {
+    dispatch({ type: ACTION.INPUT, payload: e.target.value });
   };
 
   return (
-    <main className={color}>
+    <main className={state.darkMode ? 'dark' : ''}>
       <section>
-        <input
-          type='text'
-          value={input}
-          onChange={handleChange}
-        />
-        <p className='output'>{input || 'output'}</p>
-        <div className='button-container'>
-          <button
-            onClick={changeColor}
-            name='react-blue'
-          >
-            react blue
-          </button>
-          <button
-            onClick={changeColor}
-            name=''
-          >
-            default
-          </button>
-        </div>
-      </section>
-      <section>
-        <p className='output'>{count}</p>
+        <h2>counter</h2>
+        <p className='output'>{state.count || 0}</p>
         <div className='button-container'>
           <button onClick={incrementCount}>increment</button>
           <button onClick={decrementCount}>decrement</button>
         </div>
+      </section>
+      <section>
+        <h2>theme</h2>
+        <div className='button-container'>
+          <button onClick={changeTheme}>
+            {state.darkMode ? 'light mode' : 'dark mode'}
+          </button>
+        </div>
+      </section>
+      <section>
+        <h2>input</h2>
+        <input
+          type='text'
+          value={state.input}
+          onChange={handleInputChange}
+        />
+        <p className='output'>{state.input.trim() || 'user input'}</p>
       </section>
     </main>
   );
