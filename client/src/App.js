@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useReducer } from 'react';
 
 function App() {
   const reducer = (state, action) => {
@@ -23,7 +23,7 @@ function App() {
   });
 
   const handleChange = e => {
-    dispatch({ action: { payload: e.target.value } });
+    dispatch({ type: 'input', payload: e.target.value });
   };
 
   const incrementCount = () => {
