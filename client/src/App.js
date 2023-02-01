@@ -3,6 +3,7 @@ import { useState } from 'react';
 function App() {
   const [input, setInput] = useState('');
   const [count, setCount] = useState(0);
+  const [color, setColor] = useState('');
 
   const handleChange = e => {
     setInput(e.target.value);
@@ -16,8 +17,12 @@ function App() {
     setCount(prev => prev - 1);
   };
 
+  const changeColor = e => {
+    setColor(e.target.name);
+  };
+
   return (
-    <main>
+    <main className={color}>
       <section>
         <input
           type='text'
@@ -25,6 +30,20 @@ function App() {
           onChange={handleChange}
         />
         <p className='output'>{input || 'output'}</p>
+        <div className='button-container'>
+          <button
+            onClick={changeColor}
+            name='react-blue'
+          >
+            react blue
+          </button>
+          <button
+            onClick={changeColor}
+            name=''
+          >
+            default
+          </button>
+        </div>
       </section>
       <section>
         <p className='output'>{count}</p>
