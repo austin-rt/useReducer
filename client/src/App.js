@@ -21,11 +21,11 @@ function App() {
   };
 
   const incrementCount = () => {
-    setCount(prev => prev + 1);
+    dispatch({ type: 'increment' });
   };
 
   const decrementCount = () => {
-    setCount(prev => prev - 1);
+    dispatch({ type: 'decrement' });
   };
 
   return (
@@ -39,7 +39,7 @@ function App() {
         <p className='output'>{input || 'output'}</p>
       </section>
       <section>
-        <p className='output'>{count}</p>
+        <p className='output'>{state.count}</p>
         <div className='button-container'>
           <button onClick={incrementCount}>increment</button>
           <button onClick={decrementCount}>decrement</button>
