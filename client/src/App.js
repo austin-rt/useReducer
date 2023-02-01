@@ -1,6 +1,7 @@
 import { useState, useReducer } from 'react';
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [input, setInput] = useState('');
   const [count, setCount] = useState(0);
 
