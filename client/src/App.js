@@ -1,58 +1,31 @@
-import { useState, useReducer } from 'react';
-
-const initialState = {
-  count: 0,
-  darkMode: true,
-  input: ''
-};
-
-const ACTION = {
-  INCREMENT: 'increment',
-  DECREMENT: 'decrement',
-  DARK_MODE: 'darkMode',
-  INPUT: 'input'
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ACTION.INCREMENT:
-      return { ...state, count: state.count + 1 };
-    case ACTION.DECREMENT:
-      return { ...state, count: state.count - 1 };
-    case ACTION.DARK_MODE:
-      return { ...state, darkMode: action.payload };
-    case ACTION.INPUT:
-      return { ...state, input: action.payload };
-    default:
-      console.log(`Action ${action.type} not found.`);
-      return state;
-  }
-};
+import { useState } from 'react';
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [count, setCount] = useState(0);
+  const [darkMode, setDarkMode] = useState(true);
+  const [input, setInput] = useState('');
 
   const incrementCount = () => {
-    dispatch({ type: ACTION.INCREMENT });
+    setCount(prev => prev + 1);
   };
 
   const decrementCount = () => {
-    dispatch({ type: ACTION.DECREMENT });
+    setCount(prev => prev - 1);
   };
 
   const changeTheme = e => {
-    dispatch({ type: ACTION.DARK_MODE, payload: !state.darkMode });
+    setDarkMode(!darkMode);
   };
 
   const handleInputChange = e => {
-    dispatch({ type: ACTION.INPUT, payload: e.target.value });
+    setInput(e.target.value);
   };
 
   return (
-    <main className={state.darkMode ? 'dark' : ''}>
+    <main className={darkMode ? 'dark' : ''}>
       <section>
         <h2>counter</h2>
-        <p className='output'>{state.count || 0}</p>
+        <p className='output'>{count || 0}</p>
         <div className='button-container'>
           <button onClick={incrementCount}>increment</button>
           <button onClick={decrementCount}>decrement</button>
@@ -62,7 +35,7 @@ function App() {
         <h2>theme</h2>
         <div className='button-container'>
           <button onClick={changeTheme}>
-            {state.darkMode ? 'light mode' : 'dark mode'}
+            {darkMode ? 'light mode' : 'dark mode'}
           </button>
         </div>
       </section>
@@ -70,10 +43,10 @@ function App() {
         <h2>input</h2>
         <input
           type='text'
-          value={state.input}
+          value={input}
           onChange={handleInputChange}
         />
-        <p className='output'>{state.input.trim() || 'user input'}</p>
+        <p className='output'>{input.trim() || 'user input'}</p>
       </section>
     </main>
   );
