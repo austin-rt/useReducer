@@ -374,7 +374,7 @@ drilling that your code would be entirely unreadable.
 
 ## Conclusions
 
-So, when should you use `useState` and when should you use `useReducer`?
+So, when should you use `useState`, and when should you use `useReducer`?
 
 That, my friend, is up to you (or your future company's style guide and coding
 principles). If you're able to accurately predict the complexity of your app,
