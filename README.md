@@ -14,7 +14,7 @@ If you'd like to skim this as a Medium article, it can be found [here](#)
 - `npm i`
 - `npm start`
 
-## useReducer
+## `useReducer`
 
 The intended use case for `useReducer` is to manage complex state logic by
 taking advantage of the
@@ -79,13 +79,15 @@ const [state, dispatch] = useReducer(reducer, initialState);
 `useReducer` looks a lot like `useState`. We're still destructuring an array
 from the return and passing our initial values as arguments. However, you may
 notice that, unlike `useState`, `useReducer` requires two arguments: a `reducer`
-function and the `initialState`. The other difference is much more minor. Our
-`state` is essentially the same, but rather than explicitly naming each piece of
-state, the convention is to create a `state` object, and our `key`/`value` pairs
-become our different "pieces" of state. The `dispatch` function is still our
-state setter but requires an `action` object as a second argument.
+function and the `initialState`. The other difference is much more minor.
 
-## Refactor Counter
+Our `state` is essentially the same, but rather than explicitly naming each
+piece of state, the convention is to create a `state` object, and our
+`key`/`value` pairs become our different "pieces" of state. The `dispatch`
+function is still our state setter but requires an `action` object as a second
+argument.
+
+## Refactoring Counter
 
 First, we'll refactor the `count` state. We'll start by defining our
 `initialState` variable. Typically this, along with the `reducer` function,
@@ -106,8 +108,8 @@ function App() {
 
 Next, we'll define our `reducer` function in a "separate file" (same file, but
 outside our component). This `reducer` function requires two arguments: our
-`state` object and an `action` object. The `action` object will have two keys: a
-`type` and a `payload`. Later, when we dispatch an action, the `type` tells
+`state` object and an `action` object. The `action` object will have two keys:
+`type` and `payload`. Later, when we dispatch an action, the `type` tells
 `useReducer` what we're trying to update, while the `payload` provides the
 updated value.
 
@@ -155,8 +157,8 @@ const decrementCount = () => {
 };
 ```
 
-And lastly, since our `count` is now nested inside our `state` object, we need
-to update our `count` reference in our JSX.
+And lastly, since `count` is now nested inside our `state` object, we need to
+update our `count` reference in our JSX.
 
 ```js
 <p className='output'>{state.count}</p>
@@ -171,15 +173,15 @@ readability with no tangible advantages! How cool!
 Settle down. Now is where we start to see some advantages. It's time to
 **reduce** our state into a single object.
 
-## Refactor Theme
+## Refactoring darkMode
 
 We'll start this process by adding `darkMode` to our `initialState` object. In
-our case, the default is `dark` because I'm not a criminal.
+our case, the default is `true` because I'm a gremlin.
 
 ```js
 const initialState = {
   count: 0,
-  theme: 'dark'
+  darkMode: 'dark'
 };
 ```
 
@@ -220,15 +222,33 @@ Lastly, we'll update the reference in our JSX.
 </button>
 ```
 
-Now you'll see that we can toggle between light and dark mode. And our
-counter...
+Now you'll see that we can, again, toggle between light and dark modes! And if
+we test our counter we find that...
 
-is broken. Luckily this is an easy fix. When we update our `state` object, it's
-completely overwriting the previous `state` object, but we want to preserve all
-previous values and only update the one being changed. So, in our `reducer`, all
-we need to do is
+We broke our app.
+
+Luckily this is an easy fix. When we update our `state` object, it's completely
+overwriting the previous `state` object, but we want to preserve all previous
+values and only update the one being changed. So, in our `reducer`, all we need
+to do is
 [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 the current state before updating.
+
+```js
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'increment':
+      return { ...state, count: state.count + 1 };
+    case 'decrement':
+      return { ...state, count: state.count - 1 };
+    case 'darkMode':
+      return { ...state, darkMode: action.payload };
+    default:
+      console.log(`Action ${action.type} not found.`);
+      return state;
+  }
+};
+```
 
 Works like a charm! We can now remove our `darkMode` `useState` instance.
 
@@ -400,5 +420,4 @@ GitHub | Twitter | LinkedIn | Website
 - [useState](https://beta.reactjs.org/reference/react/useState)
 - [Flux](https://medium.com/edge-coders/the-difference-between-flux-and-redux-71d31b118c1)
 - [Redux](https://redux.js.org/introduction/getting-started)
-- [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-  the current state before updating
+- [ES6 Spread Operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
