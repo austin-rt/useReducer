@@ -1,11 +1,14 @@
-# Demystifying React Hooks: `useReducer`
+# Demystifying React Hooks – `useReducer`
 
-![](./assets/png/useReducer-header-small.png)
+![header](./assets/png/useReducer-header-small.png)
 
 In this article, we will explore when and how to use React’s `useReducer` hook
 and how it relates to the `useState` Hook.
 
-If you'd like to skim this as a Medium article, it can be found [here](#)
+If you'd like, you can skim this as a
+[Medium](https://medium.com/@austinrt/demystifying-react-hooks-usereducer-4efd32edc084)
+or [dev.to](https://dev.to/austinrt/demystifying-react-hooks-usereducer-587k)
+article.
 
 ## Getting Started
 
@@ -59,7 +62,7 @@ setCount(previousState => {
 });
 ```
 
-# A Simple Refactor
+## A Simple Refactor
 
 Let's jump into our refactoring, one piece of state at a time. We'll start by
 importing `useReducer` from `'react'`.
@@ -386,7 +389,7 @@ apps grow, we'll find that this pattern, while heavy on the setup, simplifies
 overall. For example, take a look at this state tree from Airbnb. Or, head to
 [airbnb.com](https://airbnb.com) and see for yourself using the Redux DevTools.
 
-![](/useReducer/assets/png/airbnb-state-trace.png)
+![airbnb state trace tree](/useReducer/assets/png/airbnb-state-trace.png)
 
 Now, imagine a different `useState` hook for each of those values. And imagine
 if you needed to pass these values around your app. There would be so much prop
