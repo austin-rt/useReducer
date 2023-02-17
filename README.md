@@ -1,4 +1,4 @@
-# Demystifying React Hooks – `useReducer`
+# `useReducer` – Demystifying React Hooks (Pt. 1)
 
 ![header](./assets/png/useReducer-header-small.png)
 
